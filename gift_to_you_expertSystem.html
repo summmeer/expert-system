@@ -18,6 +18,7 @@
    String.prototype.times = function(n) {
       return Array.prototype.join.call({length:n+1}, this);
     };
+    //https://summmeer.github.io/gift_to_you_expertSystem
     function getRemainder(){
          var input_bitstring = document.getElementById("input_bitstring").value;
          var polynomial_bitstring = document.getElementById("polynomial_bitstring").value;
@@ -59,7 +60,28 @@
     }
 </script>
 
-<h1 style="text-align:center">CRC计算器</h1>
+<h1 style="text-align:center">专家系统</h1>
+<select >
+  <option value ="volvo" style="text-align:center">Volvo</option>
+  <option value ="saab" style="text-align:center">Saab</option>
+  <option value="opel" style="text-align:center">Opel</option>
+  <option value="audi" style="text-align:center">Audi</option>
+</select>
+<p>画布：</p>
+<canvas id="myCanvas" width="500" height="300" style="border:1px solid #d3d3d3;background:#ffffff;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+
+<script>
+
+var c=document.getElementById("background");
+var ctx=c.getContext("2d");
+var img=document.getElementById("tulip");
+ctx.drawImage(img,10,10);
+
+</script>
+
 <p style="text-align:center" >目前仅支持二进制，M为不含冗余码的原始数据</p>
 <form style="text-align:center">
   数据M（二进制）:<br>
@@ -74,7 +96,6 @@ onclick=getRemainder() >
 计算余数</button>
 </div>
 <p style="text-align:center" id="demo"></p>
-
 
 </body>
 </html> 
