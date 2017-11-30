@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+        /*p,input,button{
+            text-align: center;
+        }*/
+        div{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<script language="JavaScript">
+   String.prototype.times = function(n) {
+      return Array.prototype.join.call({length:n+1}, this);
+    };
+    function getRemainder(){
+         var input_bitstring = document.getElementById("input_bitstring").value;
+         var polynomial_bitstring = document.getElementById("polynomial_bitstring").value;
+         if(input_bitstring==null || input_bitstring=="") {  
+        alert("输入的数据M为空，无法计算！");  
+        return false;  
+    }  
+             if(polynomial_bitstring==null || polynomial_bitstring=="") {  
+        alert("输入的除数P为空，无法计算！");  
+        return false;  
+    }  
+         //alert("The input is: " + input_bitstring + " and " +polynomial_bitstring);
+         initial_padding = "0".times(polynomial_bitstring.length-1);
+         //alert("initial_padding is "+initial_padding);
+         var arr = (input_bitstring +initial_padding).split("");
+         var arr2 = arr.slice(0,input_bitstring.length);
+
+   		 while(arr2.indexOf('1')!=-1){
+         var cur_shift = arr.indexOf('1');
+         for(var i = 0;i<polynomial_bitstring.length;i++){
+         if(polynomial_bitstring[i] == arr[cur_shift + i])
+                    {arr[cur_shift + i] = '0';}
+            else{
+                arr[cur_shift + i] = '1';
+            }
+          }
+          arr2 = arr.slice(0,input_bitstring.length);
+     	 }
+         //alert(arr);
+         var rem="";
+         for (var i = input_bitstring.length; i < arr.length; i++) {
+            rem+=arr[i];
+         }
+         //alert(rem);
+         document.getElementById('demo').innerHTML = "余数是： "+rem;
+
+
+
+    }
+</script>
+
+<h1 style="text-align:center">CRC计算器</h1>
+<p style="text-align:center" >目前仅支持二进制，M为不含冗余码的原始数据</p>
+<form style="text-align:center">
+  数据M（二进制）:<br>
+  <input type="text" id="input_bitstring" name="input1"><br>
+  <br />
+  除数P（二进制）:<br>
+  <input type="text" id="polynomial_bitstring" name="input2">
+</form>
+<br />
+<div><button type="button"
+onclick=getRemainder() > 
+计算余数</button>
+</div>
+<p style="text-align:center" id="demo"></p>
+
+
+</body>
+</html> 
