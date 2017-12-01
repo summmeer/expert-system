@@ -12,90 +12,91 @@
         }
     </style>
 </head>
-<body>
+<body bgcolor="#E6E6FA">
 
 <script language="JavaScript">
    String.prototype.times = function(n) {
       return Array.prototype.join.call({length:n+1}, this);
     };
     //https://summmeer.github.io/gift_to_you_expertSystem
-    function getRemainder(){
-         var input_bitstring = document.getElementById("input_bitstring").value;
-         var polynomial_bitstring = document.getElementById("polynomial_bitstring").value;
-         if(input_bitstring==null || input_bitstring=="") {  
-        alert("输入的数据M为空，无法计算！");  
-        return false;  
-    }  
-             if(polynomial_bitstring==null || polynomial_bitstring=="") {  
-        alert("输入的除数P为空，无法计算！");  
-        return false;  
-    }  
-         //alert("The input is: " + input_bitstring + " and " +polynomial_bitstring);
-         initial_padding = "0".times(polynomial_bitstring.length-1);
-         //alert("initial_padding is "+initial_padding);
-         var arr = (input_bitstring +initial_padding).split("");
-         var arr2 = arr.slice(0,input_bitstring.length);
-
-   		 while(arr2.indexOf('1')!=-1){
-         var cur_shift = arr.indexOf('1');
-         for(var i = 0;i<polynomial_bitstring.length;i++){
-         if(polynomial_bitstring[i] == arr[cur_shift + i])
-                    {arr[cur_shift + i] = '0';}
-            else{
-                arr[cur_shift + i] = '1';
-            }
-          }
-          arr2 = arr.slice(0,input_bitstring.length);
-     	 }
-         //alert(arr);
-         var rem="";
-         for (var i = input_bitstring.length; i < arr.length; i++) {
-            rem+=arr[i];
+    function getResult(){
+         var select_sex = document.getElementById("select1").value;
+         var select_relation = document.getElementById("select2").value;
+         var select_character = document.getElementById("select3").value;
+         
+         var RuleNum = new Array(['audio', 0.3, 0.6, 0.6, 0.6, 0.1, 0.7, 0.6, 0.3, 0.4, 0.6],
+                ['cat', 0.1, 0.9, 0.3, 0.5, 0.1, 0.5, 0.9, 0.4, 0.2, 0],
+                ['hat', 0, 0.7, 0.5, 0.5, 0.5, 0.3, 0.5, 0.5, 0.4, 0],
+                ['massor', 0.5, 0.5, 0.2, 0.2, 1.0, 0.2, 0.1, 0.1, 0.6, 0.4],
+                ['necklace', 0.2, 0.6, 0.7, 0.5, 0, 0.5, 0.2, 0.7, 0.6, 0],
+                ['notebook', 0.5, 0.5, 0.3, 0.7, 0.1, 0.8, 0.5, 0.9, 0.8, 0],
+                ['perfume', 0.3, 0.6, 0.9, 0.7, 0, 0.45, 0.1, 0.4, 0.5, 0],
+                ['pillow', 0.5, 0.5, 0.3, 0.5, 0.8, 0.4, 0.2, 0.1, 0.9, 0.2],
+                ['tea', 0.5, 0.5, 0.2, 0.4, 0.9, 0.3, 0.1, 0.3, 0.8, 0],
+                ['watch', 0.9, 0, 0.8, 0.7, 0.3, 0.6, 0.1, 0.5, 0.8, 0.4],
+                ['wet', 0.5, 0.5, 0.6, 0.6, 0.6, 0.6, 0.8, 0.6, 0.9, 0.3],
+                ['clock', 0.6, 0.5, 0.4, 0.5, 0.1, 0.6, 0.2, 0.2, 0.8, 0.6])
+         var result = new Array(0,0,0,0,0,0,0,0,0,0,0,0)
+         var maxI = 0
+         var maxResult = 0
+         for (var i = RuleNum.length - 1; i >= 0; i--) {
+             temp = RuleNum[i][select_sex] + RuleNum[i][select_character] - RuleNum[i][select_sex] * RuleNum[i][select_character]
+             result[i] = RuleNum[i][select_relation] + temp - RuleNum[i][select_relation] * temp
+             if (result[i]>maxResult) {maxResult=result[i],maxI=i}
          }
-         //alert(rem);
-         document.getElementById('demo').innerHTML = "余数是： "+rem;
+        picname = RuleNum[maxI][0]
+        alert("推荐给你：" + picname)
 
+        var canvas = document.getElementById('myCanvas'),
+        context = canvas.getContext('2d');
 
-
+        make_base();
     }
+
+    function make_base()
+        {
+            base_image = new Image();
+            base_image.src = '/fig/cat.png';
+            base_image.onload = function(){
+            context.drawImage(base_image, 100, 100);
+            }
+        }
 </script>
 
-<h1 style="text-align:center">专家系统</h1>
-<select >
-  <option value ="volvo" style="text-align:center">Volvo</option>
-  <option value ="saab" style="text-align:center">Saab</option>
-  <option value="opel" style="text-align:center">Opel</option>
-  <option value="audi" style="text-align:center">Audi</option>
+<div align="center">
+<h1 style="color:#00008B">
+专家系统
+</h1>
+<h1 style="color:#00008B">
+Gift to You
+</h1>
+<p style="color:#00008B">送礼对象</p>
+<select id="select1">
+  <option value ="1" style="text-align:center">男</option>
+  <option value ="2" style="text-align:center">女</option>
 </select>
-<p>画布：</p>
-<canvas id="myCanvas" width="500" height="300" style="border:1px solid #d3d3d3;background:#ffffff;">
+<select id="select2">
+  <option value ="3" style="text-align:center">对象</option>
+  <option value ="4" style="text-align:center">好朋友</option>
+  <option value="5" style="text-align:center">长辈</option>
+  <option value="6" style="text-align:center">同事/同学</option>
+</select>
+<p style="color:#00008B">礼物属性</p>
+<select id="select3">
+  <option value ="7" style="text-align:center">萌萌哒</option>
+  <option value ="8" style="text-align:center">文艺小清新</option>
+  <option value="9" style="text-align:center">实用</option>
+  <option value="10" style="text-align:center">科技</option>
+</select>
+<p style="color:#00008B">↓</p>
+<div><button type="button"
+onclick=getResult() > 
+寻找礼物</button>
+</div>
+<canvas id="myCanvas" width="500" height="300" style="border:20px solid #E6E6FA;background:#E6E6FA;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
-
-
-<script>
-
-var c=document.getElementById("background");
-var ctx=c.getContext("2d");
-var img=document.getElementById("tulip");
-ctx.drawImage(img,10,10);
-
-</script>
-
-<p style="text-align:center" >目前仅支持二进制，M为不含冗余码的原始数据</p>
-<form style="text-align:center">
-  数据M（二进制）:<br>
-  <input type="text" id="input_bitstring" name="input1"><br>
-  <br />
-  除数P（二进制）:<br>
-  <input type="text" id="polynomial_bitstring" name="input2">
-</form>
-<br />
-<div><button type="button"
-onclick=getRemainder() > 
-计算余数</button>
 </div>
-<p style="text-align:center" id="demo"></p>
 
 </body>
 </html> 
